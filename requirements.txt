@@ -1,6 +1,3 @@
 argparse
-os
-re
-subprocess
 pytest
 pyinstaller
