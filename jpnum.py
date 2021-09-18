@@ -96,34 +96,20 @@ def kanji_to_arabic(k: str) -> str:
 
 
 # --------------------------------------------------
-def check_arabic(a: str) -> bool:
+def convert_arabic(a: str) -> str:
 
     if int(a) > 99999:
         raise UserInputError('Number is too large. I can only convert numbers up to 99,999.')
     else:
-        return True
-
-
-# --------------------------------------------------
-def check_kanji(k: str) -> bool:
-
-    if not re.search(is_valid_kanji_number_regex, k):
-        raise UserInputError(f'Input is not a valid kanji number, or is too large. I can only convert well-formed kanji numbers up to 99,999 (九万九千九百九十九).')
-    else: 
-        return True
-
-
-# --------------------------------------------------
-def convert_arabic(a: str) -> str:
-
-    if check_arabic(a):
         return arabic_to_kanji(a)
 
 
 # --------------------------------------------------
 def convert_kanji(k: str) -> str:
 
-    if check_kanji(k):
+    if not re.search(is_valid_kanji_number_regex, k):
+        raise UserInputError(f'Input is not a valid kanji number, or is too large. I can only convert well-formed kanji numbers up to 99,999 (九万九千九百九十九).')
+    else: 
         return kanji_to_arabic(k)
 
 
@@ -147,6 +133,7 @@ def convert(input) -> str:
         return convert_kanji(s)
     else:
         raise UserInputError(f'Input contains invalid characters. Input must either be an arabic number containing digits 0-9 (no commas), or a kanji number containing only the following characters: {kanji_all}.')
+
 
 # --------------------------------------------------
 def main():
