@@ -4,11 +4,11 @@ jpnum is a Windows command line program that converts between arabic and Japanes
 
 It takes a single positional argument that can be either an arabic number or a kanji number.
 
-[[/readme-img/command-1.png"/>]]
+[/readme-img/command-1.png]
 
 The maximum input for either number system is 99,999. Providing arguments that are too large or are not valid arabic or kanji numbers will generate ValueErrors.
 
-[[/readme-img/command-1.png"/>]]
+[[/readme-img/command-2.png]]
 
 ## How to install and use
 
