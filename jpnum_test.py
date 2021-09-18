@@ -9,8 +9,8 @@ from subprocess import getstatusoutput, run
 prg = 'jpnum.py'
 
 # check 10,000
-test_pairs = [('5', "五"), ('11', '十一'), ('104', '百四'), ('3073', '三千七十三'), ('16578', '一万六千五百七十八')]
-invalid_inputs = ['二十s三','ten', '10000000', '九九万九千九百九十九']
+test_pairs = [('5', "五"), ('11', '十一'), ('104', '百四'), ('3073', '三千七十三'), ('16578', '一万六千五百七十八'),]
+invalid_inputs = ['二十s三','ten', '10000000', '九九万九千九百九十九', '十万', "十万二十千", "一百"]
 
 
 # --------------------------------------------------
@@ -76,9 +76,9 @@ def test_involution():
 
 
 # --------------------------------------------------
-def test_value_error():
-    """test for value errors for invalid input values"""
+def test_user_input_error():
+    """test for user input errors for invalid input values"""
 
     for input in invalid_inputs:
         err, _ = get_stderr_stdout(input)
-        assert re.search("ValueError", err, re.IGNORECASE)
+        assert re.search("UserInputError", err, re.IGNORECASE)

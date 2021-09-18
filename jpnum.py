@@ -8,11 +8,19 @@ Purpose: Convert between arabic and Japanese kanji numbers
 import argparse, re, sys
 
 kanji_1to9: str = "一二三四五六七八九"
+kanji_2to9: str = "二三四五六七八九"
 kanji_powers_of_ten: list = [("", True), ("十", False), ("百", False), ("千", False), ("万", True)]
 kanji_all: str = kanji_1to9 + ''.join(k for (k, _) in kanji_powers_of_ten)
 
+is_valid_kanji_number_regex = f'^(?:[{kanji_1to9}]万)?(?:[{kanji_2to9}]?千)?(?:[{kanji_2to9}]?百)?(?:[{kanji_2to9}]?十)?(?:[{kanji_1to9}]?)$'
+
+
 # daiji_1to9 = "壱弐参四五六七八九"
 # daiji_powers_of_10 = "拾百千万"
+
+# --------------------------------------------------
+class UserInputError(Exception):
+    pass
 
 
 # --------------------------------------------------
@@ -90,10 +98,8 @@ def kanji_to_arabic(k: str) -> str:
 # --------------------------------------------------
 def check_arabic(a: str) -> bool:
 
-    if re.search('[^0-9]', a):
-        raise ValueError('Input contains invalid characters. Arabic number inputs must only contains the following characters: 0123456789')
-    elif int(a) > 99999:
-        raise ValueError('Number is too large. I can only convert numbers up to 99,999')
+    if int(a) > 99999:
+        raise UserInputError('Number is too large. I can only convert numbers up to 99,999.')
     else:
         return True
 
@@ -101,10 +107,8 @@ def check_arabic(a: str) -> bool:
 # --------------------------------------------------
 def check_kanji(k: str) -> bool:
 
-    if re.search(f'[^{kanji_all}]', k):
-        raise ValueError(f'Input contains invalid characters. Kanji inputs must only contain the following characters: {kanji_all}')
-    if len(k) > 9:
-        raise ValueError(f'Input is too long. Maximum string length for kanji input is 9 characters.')
+    if not re.search(is_valid_kanji_number_regex, k):
+        raise UserInputError(f'Input is not a valid kanji number, or is too large. I can only convert well-formed kanji numbers up to 99,999 (九万九千九百九十九).')
     else: 
         return True
 
@@ -133,15 +137,16 @@ def has_kanji(s: str) -> bool:
 
 
 # --------------------------------------------------
-def convert(input: str) -> str:
+def convert(input) -> str:
 
     s = str(input)
     
-    if has_kanji(s):
+    if re.search(r'^\d*$', s):  # Regex declared as raw string because Python 3 interprets string literals as Unicode strings
+        return convert_arabic(s)
+    elif re.search(f'^[{kanji_all}]+$', s):
         return convert_kanji(s)
     else:
-        return convert_arabic(s)
-
+        raise UserInputError(f'Input contains invalid characters. Input must either be an arabic number containing digits 0-9 (no commas), or a kanji number containing only the following characters: {kanji_all}.')
 
 # --------------------------------------------------
 def main():
@@ -157,4 +162,7 @@ def main():
 
 # --------------------------------------------------
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except UserInputError as e:
+        sys.exit("UserInputError: " + str(e))
