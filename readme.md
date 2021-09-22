@@ -12,7 +12,7 @@ The maximum input for either number system is 99,999. Providing arguments that a
 
 ## How to install and use
 
-Just copy jpnum.exe from the dist directory to any folder on your computer and run from the Windows Command Prompt
+Just copy jpnum.exe from the dist directory to any folder on your computer and run from the Windows Command Prompt.
 
 Note that you will need to change the Command Prompt display font to a font that supports Japanese Unicode characters in order to correctly display kanji inputs and outputs. To do this:
 
