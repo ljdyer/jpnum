@@ -4,7 +4,7 @@ jpnum is a Windows command line program that converts between arabic and Japanes
 
 ## How to install
 
-Just copy [jpnum.text](dist/jpnum.exe) from the dist directory to any folder on your computer and run from the Windows Command Prompt.
+Download [jpnum.exe](dist/jpnum.exe) from the dist directory to any folder on your computer and run from the Windows Command Prompt.
 
 Note that you will need to change the Command Prompt display font to a font that supports Japanese Unicode characters in order to correctly display kanji inputs and outputs. To do this:
 
